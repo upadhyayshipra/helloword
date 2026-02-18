@@ -1,0 +1,6 @@
+FROM alpine:latest
+RUN apk add --no-cache curl bash
+WORKDIR /test
+COPY verify-service.sh .
+RUN chmod +x verify-service.sh
+ENTRYPOINT ["./verify-service.sh"]

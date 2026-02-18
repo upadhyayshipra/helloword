@@ -1,0 +1,25 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: helloworld
+build:
+  artifacts:
+  - image: helloworld
+    context: .
+    docker:
+      dockerfile: Dockerfile
+  - image: helloworld-test
+    context: .
+    docker:
+      dockerfile: Dockerfile.test
+deploy:
+  cloudrun: {}
+verify:
+- name: service-check
+  container:
+    name: service-check
+    image: helloworld-test
+    command: ["./verify-service.sh"]
+    env:
+    - name: SERVICE_URL
+      value: "http://localhost:8080" # Default for local, overridden in Cloud Deploy
