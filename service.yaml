@@ -6,6 +6,6 @@ spec:
   template:
     spec:
       containers:
-        - image: us-docker.pkg.dev/airlock-1p-private-staging/airlock1p-dev/helloworld # Skaffold will replace this with the built image
+        - image: us-docker.pkg.dev/airlock-1p-private-staging/upadhyayshipra-airlock1p-dev/helloworld # Skaffold will replace this with the built image
           ports:
             - containerPort: 8080

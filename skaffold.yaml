@@ -4,11 +4,11 @@ metadata:
   name: helloworld
 build:
   artifacts:
-    - image: us-docker.pkg.dev/airlock-1p-private-staging/airlock1p-dev/helloworld
+    - image: us-docker.pkg.dev/airlock-1p-private-staging/upadhyayshipra-airlock1p-dev/helloworld
       context: .
       docker:
         dockerfile: Dockerfile
-    - image: us-docker.pkg.dev/airlock-1p-private-staging/airlock1p-dev/helloworld-test
+    - image: us-docker.pkg.dev/airlock-1p-private-staging/upadhyayshipra-airlock1p-dev/helloworld-test
       context: .
       docker:
         dockerfile: Dockerfile.test
