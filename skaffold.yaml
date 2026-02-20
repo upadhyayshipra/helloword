@@ -12,18 +12,28 @@ build:
       context: .
       docker:
         dockerfile: Dockerfile.test
-deploy:
-  cloudrun: {}
-verify:
-  - name: service-check
-    container:
-      name: service-check
-      image: helloworld-test
-      command: ["./verify-service.sh"]
-      env:
-        - name: SERVICE_URL
-          value: "http://localhost:8080" # Default for local, overridden in Cloud Deploy
 profiles:
   - name: target-1
+    # ---------------------------------------------------------
+    # 1. Added 'manifests' section.
+    # Skaffold needs the raw Cloud Run YAML to deploy.
+    # Ensure you have a 'service.yaml' file in your directory.
+    # ---------------------------------------------------------
+    manifests:
+      rawYaml:
+        - service.yaml
     deploy:
       cloudrun: {}
+    verify:
+      - name: service-check
+        container:
+          name: service-check
+          image: helloworld-test
+          command: [ "./verify-service.sh" ]
+          env:
+            - name: SERVICE_URL
+              # ---------------------------------------------------------
+              # 2. Warning: localhost will not work for remote Cloud Run.
+              # In a real pipeline, this should be the remote URL.
+              # ---------------------------------------------------------
+              value: "http://localhost:8080"

@@ -1,0 +1,11 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: helloworld
+spec:
+  template:
+    spec:
+      containers:
+        - image: helloworld # Skaffold will replace this with the built image
+          ports:
+            - containerPort: 8080
