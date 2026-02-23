@@ -24,9 +24,7 @@ profiles:
         container:
           name: service-check
           image: us-docker.pkg.dev/airlock-1p-private-staging/upadhyayshipra-airlock1p-dev/helloworld-test
-          command: [ "./verify-service.sh" ]
+          # No command needed, Dockerfile ENTRYPOINT handles it
           env:
-            # Pass the region so the script can find the service
             - name: GOOGLE_CLOUD_REGION
               value: "us-central1"
-            # Removed SERVICE_URL to force dynamic discovery

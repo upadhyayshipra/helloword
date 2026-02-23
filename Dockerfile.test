@@ -1,10 +1,22 @@
-# Use the Google Cloud SDK image so we can use 'gcloud' commands
+# Start with Google Cloud SDK (includes gcloud)
 FROM google/cloud-sdk:alpine
 
-# Install curl and bash (gcloud image is based on Alpine)
-RUN apk add --no-cache curl bash
+# Install OpenJDK 21 (needed to run Maven and JUnit)
+RUN apk add --no-cache openjdk21
 
-WORKDIR /test
-COPY verify-service.sh .
-RUN chmod +x verify-service.sh
-ENTRYPOINT ["./verify-service.sh"]
+WORKDIR /app
+
+# Copy Maven wrapper and configuration
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+RUN chmod +x mvnw
+
+# Download dependencies (go-offline) to speed up subsequent runs
+RUN ./mvnw dependency:go-offline
+
+# Copy source code (including the new IntegrationTest.java)
+COPY src ./src
+
+# Run the tests using Maven
+# We use -Dtest=IntegrationTest to specifically run our new test class
+ENTRYPOINT ["./mvnw", "test", "-Dtest=IntegrationTest"]
