@@ -14,11 +14,6 @@ build:
         dockerfile: Dockerfile.test
 profiles:
   - name: target-1
-    # ---------------------------------------------------------
-    # 1. Added 'manifests' section.
-    # Skaffold needs the raw Cloud Run YAML to deploy.
-    # Ensure you have a 'service.yaml' file in your directory.
-    # ---------------------------------------------------------
     manifests:
       rawYaml:
         - service.yaml
@@ -31,9 +26,7 @@ profiles:
           image: us-docker.pkg.dev/airlock-1p-private-staging/upadhyayshipra-airlock1p-dev/helloworld-test
           command: [ "./verify-service.sh" ]
           env:
-            - name: SERVICE_URL
-              # ---------------------------------------------------------
-              # 2. Warning: localhost will not work for remote Cloud Run.
-              # In a real pipeline, this should be the remote URL.
-              # ---------------------------------------------------------
-              value: "http://localhost:8080"
+            # Pass the region so the script can find the service
+            - name: GOOGLE_CLOUD_REGION
+              value: "us-central1"
+            # Removed SERVICE_URL to force dynamic discovery

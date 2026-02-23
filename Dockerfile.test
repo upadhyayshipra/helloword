@@ -1,5 +1,9 @@
-FROM alpine:latest
+# Use the Google Cloud SDK image so we can use 'gcloud' commands
+FROM google/cloud-sdk:alpine
+
+# Install curl and bash (gcloud image is based on Alpine)
 RUN apk add --no-cache curl bash
+
 WORKDIR /test
 COPY verify-service.sh .
 RUN chmod +x verify-service.sh
