@@ -57,7 +57,8 @@ public class IntegrationTest {
   }
 
   @Test
-  @Tag("regression")
+//  @Tag("regression")
+  @Tag("smoke")
   void contentValidationTest() throws Exception {
     HttpResponse<String> response = sendRequest();
     assertEquals(200, response.statusCode());
